@@ -1,61 +1,113 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>audio.js</title>
-    <script src="./audiojs/audio.min.js"></script>
-    <link rel="stylesheet" href="./includes/index.css" media="screen">
+    <title>English</title>
+    <meta content="width=device-width, initial-scale=0.6" name="viewport">
+    <style>
+        body { color: #666; font-family: sans-serif; line-height: 1.4; }
+        h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
+        h1 em { font-style: normal; color: #999; }
+        a { color: #888; text-decoration: none; }
+        #wrapper { width: 400px; margin: 40px auto; }
+
+        ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
+        ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
+        ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
+        li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
+        li.playing a { color: #000; }
+        li.playing:before { content: '♬'; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: -24px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
+
+        #shortcuts { position: fixed; bottom: 0px; width: 100%; color: #666; font-size: 0.9em; margin: 60px 0px 0px; padding: 20px 20px 15px; background: #f3f3f3; background: rgba(240, 240, 240, 0.7); }
+        #shortcuts div { width: 460px; margin: 0px auto; }
+        #shortcuts h1 { margin: 0px 0px 6px; }
+        #shortcuts p { margin: 0px 0px 18px; }
+        #shortcuts em { font-style: normal; background: #d3d3d3; padding: 3px 9px; position: relative; left: -3px;
+            -webkit-border-radius: 4px; -moz-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px;
+            -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); -o-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); }
+
+        @media screen and (max-device-width: 480px) {
+            #wrapper { position: relative; left: -3%; }
+            #shortcuts { display: none; }
+        }
+
+        .credit {
+            text-align: center;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="audiojs/audio.js"></script>
     <script>
-      audiojs.events.ready(function() { 
-        audiojs.createAll();
-      });
+        $(function() {
+            // Setup the player to autoplay the next track
+            var a = audiojs.createAll({
+                trackEnded: function() {
+                    var next = $('ol li.playing').next();
+                    if (!next.length) next = $('ol li').first();
+                    next.addClass('playing').siblings().removeClass('playing');
+                    audio.load($('a', next).attr('data-src'));
+                    audio.play();
+                }
+            });
+
+            // Load in the first track
+            var audio = a[0];
+            first = $('ol a').attr('data-src');
+            $('ol li').first().addClass('playing');
+            audio.load(first);
+
+            // Load in a track on click
+            $('ol li').click(function(e) {
+                e.preventDefault();
+                $(this).addClass('playing').siblings().removeClass('playing');
+                audio.load($('a', this).attr('data-src'));
+                audio.play();
+            });
+            // Keyboard shortcuts
+            $(document).keydown(function(e) {
+                var unicode = e.charCode ? e.charCode : e.keyCode;
+                // right arrow
+                if (unicode == 39) {
+                    var next = $('li.playing').next();
+                    if (!next.length) next = $('ol li').first();
+                    next.click();
+                    // back arrow
+                } else if (unicode == 37) {
+                    var prev = $('li.playing').prev();
+                    if (!prev.length) prev = $('ol li').last();
+                    prev.click();
+                    // spacebar
+                } else if (unicode == 32) {
+                    audio.playPause();
+                }
+            })
+        });
     </script>
-  </head>
-  <body>
-    <header>
-      <h1>audio.js</h1>
-    </header>
-
-    <audio src="http://kolber.github.io/audiojs/demos/mp3/juicy.mp3" preload="auto"></audio>
-
-    <h3>Installation</h3>
+</head>
+<body>
+<div id="wrapper">
+    <h1>Bensound Royalty Free Tracks</h1>
+    <audio preload></audio>
     <ol>
-      <li>
-        <p>Put <code>audio.js</code>, <code>player-graphics.gif</code> & <code>audiojs.swf</code> in the same folder.</p>
-      </li>
-      <li>
-        <p>Include audio.js:</p>
-        <pre><code>&lt;script src="/audiojs/audio.js"&gt;&lt;/script&gt;</code></pre>
-      </li>
-      <li>
-        <p>Initialise audio.js:</p>
-        <pre><code>&lt;script&gt;
-  audiojs.events.ready(function() {
-    var as = audiojs.createAll();
-  });
-&lt;/script&gt;</code></pre>
-      </li>
-      <li>
-        <p>Then you can use <code>&lt;audio&gt;</code> wherever you like in your HTML:</p>
-        <pre><code>&lt;audio src="/mp3/juicy.mp3" preload="auto" /&gt;</code></pre>
-      </li>
+        <li><a href="#" data-src="english-book/1/01 - Credits.mp3">01 - Credits</a></li>
+        <li><a href="#" data-src="english-book/2/01 - Unit 1a ex. 1, p. 4.mp3">01 - Unit 1a ex. 1, p. 4</a></li>
+        <li><a href="#" data-src="english-book/2/02 - Unit 1a  ex. 2, p. 4.mp3">02 - Unit 1a  ex. 2, p. 4</a></li>
+        <li><a href="#" data-src="english-book/2/03 - Unit 1a  ex. 3, p. 5.mp3">03 - Unit 1a  ex. 3, p. 5</a></li>
+        <li><a href="#" data-src="english-book/2/04 - Unit 1a  ex. 1, p. 6.mp3">04 - Unit 1a  ex. 1, p. 6</a></li>
+        <li><a href="#" data-src="english-book/2/05 - Unit 1a  The Ugly Duckling.mp3">05 - Unit 1a  The Ugly Duckling</a></li>
+        <li><a href="#" data-src="english-book/2/06 - Unit 2a  ex. 1 p. 8.mp3">06 - Unit 2a  ex. 1 p. 8</a></li>
+        <li><a href="#" data-src="english-book/2/07 - Unit 2a  ex. 2, p. 8 .mp3">07 - Unit 2a  ex. 2, p. 8</a></li>
+        <li><a href="#" data-src="english-book/2/08 - Unit 2a  ex. 3 p. 9.mp3">08 - Unit 2a  ex. 3 p. 9</a></li>
+        <li><a href="#" data-src="english-book/2/09 - Unit 2a  ex. 1, p. 10 .mp3">09 - Unit 2a  ex. 1, p. 10</a></li>
+        <li><a href="#" data-src="english-book/2/10 - Unit 2a  The Ugly Duckling.mp3">10 - Unit 2a  The Ugly Duckling</a></li>
+        <li><a href="#" data-src="english-book/2/11 - Unit 3a  ex. 1, p. 12.mp3">11 - Unit 3a  ex. 1, p. 12</a></li>
+        <li><a href="#" data-src="english-book/2/12 - Unit 3a  ex. 2, p. 12.mp3">12 - Unit 3a  ex. 2, p. 12</a></li>
+        <li><a href="#" data-src="english-book/2/13 - Unit 3a  ex. 3, p. 13.mp3">13 - Unit 3a  ex. 3, p. 13</a></li>
+        <li><a href="#" data-src="english-book/2/14 - Unit 3a  ex. 1, p. 14 .mp3">14 - Unit 3a  ex. 1, p. 14</a></li>
+        <li><a href="#" data-src="english-book/2/15 - Unit 3a  The Ugly Duckling.mp3">15 - Unit 3a  The Ugly Duckling</a></li>
+        <li><a href="#" data-src="english-book/2/16 - Unit 3a  ex. 4, p. 19.mp3">16 - Unit 3a  ex. 4, p. 19</a></li>
     </ol>
-
-    <h3>Examples</h3>
-    <p>A series of API tests & examples for using and extending audio.js</p>
-    <p><em>Example 1</em> <a href="http://kolber.github.com/audiojs/demos/test1.html">Test multiple load types</a></p>
-    <p><em>Example 2</em> <a href="http://kolber.github.com/audiojs/demos/test2.html">Custom markup/css</a></p>
-    <p><em>Example 3</em> <a href="http://kolber.github.com/audiojs/demos/test3.html">Multiple players, testing <code>preload</code>, <code>loop</code> & <code>autoplay</code> attributes</a></p>
-    <p><em>Example 4</em> <a href="http://kolber.github.com/audiojs/demos/test5.html">Customised player</a></p>
-    <p><em>Example 5</em> <a href="http://kolber.github.com/audiojs/demos/test6.html">Customised playlist player</a></p>
-    <p><em>Example 5</em> <a href="http://kolber.github.com/audiojs/demos/test6.html">Volume Control</a></p>
-
-    <h3>Source code</h3>
-    <p>All efforts have been made to keep the source as clean and readable as possible. Until we release more detailed documentation, the annotated source is the best reference for usage.</p>
-    <p><a href="http://kolber.github.com/audiojs/docs/">Annotated source</a> / <a href="http://github.com/kolber/audiojs">Source on Github</a></p>
-
-    <footer>
-      <p class="ab-c"><em>&real;</em> Another <a href='http://ab-c.com.au'>ab+c</a> joint</p>
-    </footer>
-  </body>
+</div>
+</body>
 </html>
