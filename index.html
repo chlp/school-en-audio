@@ -6,15 +6,16 @@
     <title>English</title>
     <meta content="width=device-width, initial-scale=0.6" name="viewport">
     <style>
-        body { color: #666; font-family: sans-serif; line-height: 1.4; }
+        body { margin: 0; padding: 0; color: #666; font-family: sans-serif; line-height: 1.4; }
         h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
         h1 em { font-style: normal; color: #999; }
         a { color: #888; text-decoration: none; }
-        #wrapper { width: 400px; margin: 40px auto; }
+        .wrapper { width: 460px; margin: 10px auto; }
+        .wrapper-top { position: fixed; z-index: 1; top: 0; width: 100%; background-color: rgba(255, 255, 255, .8); }
 
-        ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
-        ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
-        ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
+        ul { padding: 0px; margin: 100px 0 0; list-style: none; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
+        ul li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
+        ul li a { display: block; }
         li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
         li.playing a { color: #000; }
         li.playing:before { content: '♬'; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: -24px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
@@ -28,7 +29,7 @@
             -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); -o-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); }
 
         @media screen and (max-device-width: 480px) {
-            #wrapper { position: relative; left: -3%; }
+            .wrapper { position: relative; left: -3%; }
             #shortcuts { display: none; }
         }
 
@@ -43,53 +44,35 @@
             // Setup the player to autoplay the next track
             var a = audiojs.createAll({
                 trackEnded: function() {
-                    var next = $('ol li.playing').next();
-                    if (!next.length) next = $('ol li').first();
-                    next.addClass('playing').siblings().removeClass('playing');
-                    audio.load($('a', next).attr('data-src'));
-                    audio.play();
+                    var next = $('.playing').next();
+                    if (next.length) {
+                        next.click();
+                    }
                 }
             });
 
-            // Load in the first track
             var audio = a[0];
-            first = $('ol a').attr('data-src');
-            $('ol li').first().addClass('playing');
-            audio.load(first);
 
             // Load in a track on click
-            $('ol li').click(function(e) {
+            $('ul li').click(function(e) {
                 e.preventDefault();
-                $(this).addClass('playing').siblings().removeClass('playing');
+                $('.playing').removeClass('playing');
+                $(this).addClass('playing');
                 audio.load($('a', this).attr('data-src'));
                 audio.play();
             });
-            // Keyboard shortcuts
-            $(document).keydown(function(e) {
-                var unicode = e.charCode ? e.charCode : e.keyCode;
-                // right arrow
-                if (unicode == 39) {
-                    var next = $('li.playing').next();
-                    if (!next.length) next = $('ol li').first();
-                    next.click();
-                    // back arrow
-                } else if (unicode == 37) {
-                    var prev = $('li.playing').prev();
-                    if (!prev.length) prev = $('ol li').last();
-                    prev.click();
-                    // spacebar
-                } else if (unicode == 32) {
-                    audio.playPause();
-                }
-            })
         });
     </script>
 </head>
 <body>
-<div id="wrapper">
-    <h1>Bensound Royalty Free Tracks</h1>
-    <audio preload></audio>
-    <ol>
+<div class="wrapper-top">
+    <div class="wrapper">
+        <h1>English Spotlight Starter</h1>
+        <audio preload="auto"></audio>
+    </div>
+</div>
+<div class="wrapper">
+    <ul>
         <li><a href="#" data-src="english-book/1/01 - Credits.mp3">01 - Credits</a></li>
         <li><a href="#" data-src="english-book/2/01 - Unit 1a ex. 1, p. 4.mp3">01 - Unit 1a ex. 1, p. 4</a></li>
         <li><a href="#" data-src="english-book/2/02 - Unit 1a  ex. 2, p. 4.mp3">02 - Unit 1a  ex. 2, p. 4</a></li>
@@ -107,7 +90,7 @@
         <li><a href="#" data-src="english-book/2/14 - Unit 3a  ex. 1, p. 14 .mp3">14 - Unit 3a  ex. 1, p. 14</a></li>
         <li><a href="#" data-src="english-book/2/15 - Unit 3a  The Ugly Duckling.mp3">15 - Unit 3a  The Ugly Duckling</a></li>
         <li><a href="#" data-src="english-book/2/16 - Unit 3a  ex. 4, p. 19.mp3">16 - Unit 3a  ex. 4, p. 19</a></li>
-    </ol>
+    </ul>
 </div>
 </body>
 </html>
