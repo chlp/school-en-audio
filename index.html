@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>English</title>
+    <title>English Spotlight Starter</title>
     <meta content="width=device-width, initial-scale=0.6" name="viewport">
     <style>
         body { margin: 0; padding: 0; color: #666; font-family: sans-serif; line-height: 1.4; }
@@ -31,9 +31,13 @@
             // Setup the player to autoplay the next track
             var a = audiojs.createAll({
                 trackEnded: function() {
-                    var next = $('.playing').next();
-                    if (next.length) {
-                        next.click();
+                    if (this.settings.loop) {
+                        this.play.apply(this);
+                    } else {
+                        var next = $('.playing').next();
+                        if (next.length) {
+                            next.click();
+                        }
                     }
                 }
             });

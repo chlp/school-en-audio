@@ -42,6 +42,7 @@
       loop: false,
       preload: true,
       imageLocation: path + 'player-graphics.gif',
+      imageLoopLocation: path + 'loop.png',
       retinaImageLocation: path + 'player-graphics.gif',
       swfLocation: path + 'audiojs.swf',
       useFlash: (function() {
@@ -71,6 +72,10 @@
             <p class="loading"></p> \
             <p class="error"></p> \
           </div> \
+          <div class="play-loop"> \
+            <p class="loop-on"></p> \
+            <p class="loop-off"></p> \
+          </div> \
           <div class="scrubber"> \
             <div class="progress"></div> \
             <div class="loaded"></div> \
@@ -80,6 +85,7 @@
           </div> \
           <div class="error-message"></div>',
         playPauseClass: 'play-pause',
+        playLoopClass: 'play-loop',
         scrubberClass: 'scrubber',
         progressClass: 'progress',
         loaderClass: 'loaded',
@@ -100,9 +106,12 @@
           -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); \
           -o-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); } \
         .audiojs .play-pause { width: 25px; height: 40px; padding: 4px 6px; margin: 0px; float: left; overflow: hidden; border-right: 1px solid #000; } \
+        .audiojs .play-loop { width: 25px; height: 40px; padding: 4px 6px; margin: 0px; float: left; overflow: hidden; border-right: 1px solid #000; } \
         .audiojs p { display: none; width: 25px; height: 40px; margin: 0px; cursor: pointer; } \
         .audiojs .play { display: block; } \
-        .audiojs .scrubber { position: relative; float: left; width: 280px; background: #5a5a5a; height: 14px; margin: 10px; border-top: 1px solid #3f3f3f; border-left: 0px; border-bottom: 0px; overflow: hidden; } \
+        .audiojs .loop-on { display: none; } \
+        .audiojs .loop-off { display: block; } \
+        .audiojs .scrubber { position: relative; float: left; width: 255px; background: #5a5a5a; height: 14px; margin: 10px; border-top: 1px solid #3f3f3f; border-left: 0px; border-bottom: 0px; overflow: hidden; } \
         .audiojs .progress { position: absolute; top: 0px; left: 0px; height: 14px; width: 0px; background: #ccc; z-index: 1; \
           background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccc), color-stop(0.5, #ddd), color-stop(0.51, #ccc), color-stop(1, #ccc)); \
           background-image: -moz-linear-gradient(center top, #ccc 0%, #ddd 50%, #ccc 51%, #ccc 100%); } \
@@ -120,6 +129,8 @@
         .audiojs .loading { background: url("$1") -2px -31px no-repeat; } \
         .audiojs .error { background: url("$1") -2px -61px no-repeat; } \
         .audiojs .pause { background: url("$1") -2px -91px no-repeat; } \
+        .audiojs .loop-on { background: url("$4"); } \
+        .audiojs .loop-off { background: url("$4"); opacity: 0.3; } \
         \
         @media only screen and (-webkit-min-device-pixel-ratio: 2), \
           only screen and (min--moz-device-pixel-ratio: 2), \
@@ -309,10 +320,15 @@
       if (!audio.settings.createPlayer) return;
       var player = audio.settings.createPlayer,
           playPause = getByClass(player.playPauseClass, wrapper),
+          playLoop = getByClass(player.playLoopClass, wrapper),
           scrubber = getByClass(player.scrubberClass, wrapper);
 
       container[audiojs].events.addListener(playPause, 'click', function(e) {
         audio.playPause.apply(audio);
+      });
+
+      container[audiojs].events.addListener(playLoop, 'click', function(e) {
+        audio.playLoop.apply(audio);
       });
 
       container[audiojs].events.addListener(scrubber, 'click', function(e) {
@@ -446,6 +462,7 @@
         var prepend = '',
             styles = document.getElementsByTagName('style'),
             css = string.replace(/\$1/g, audio.settings.imageLocation);
+            css = string.replace(/\$4/g, audio.settings.imageLoopLocation);
             css = css.replace(/\$2/g, audio.settings.retinaImageLocation);
 
         for (var i = 0, ii = styles.length; i < ii; i++) {
@@ -665,6 +682,16 @@
     playPause: function() {
       if (this.playing) this.pause();
       else this.play();
+    },
+    playLoop: function() {
+      this.settings.loop=!this.settings.loop;
+      if (this.settings.loop) {
+          $(this.wrapper).find('.loop-on').show();
+          $(this.wrapper).find('.loop-off').hide();
+      } else {
+          $(this.wrapper).find('.loop-on').hide();
+          $(this.wrapper).find('.loop-off').show();
+      }
     },
     play: function() {
       var ios = (/(ipod|iphone|ipad)/i).test(navigator.userAgent);
