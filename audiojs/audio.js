@@ -177,7 +177,7 @@
             },
             init: function () {
                 var player = this.settings.createPlayer;
-                container[audiojs].helpers.addClass(this.wrapper, player.loadingClass);
+                container[audiojs].helpers.addClass(this.wrapper, player.playPauseClass);
             },
             loadStarted: function () {
                 var player = this.settings.createPlayer,
