@@ -141,7 +141,7 @@
                     foreach ($files as $key => $value) {
                         $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
                         if (!is_dir($path)) {
-                            if (@pathinfo($value)['extension'] === $extension) {
+                            if (mb_substr($value, -mb_strlen($extension)) === $extension) {
                                 $results[] = $path;
                             }
                         } else if ($value != "." && $value != "..") {
