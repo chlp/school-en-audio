@@ -130,26 +130,43 @@
 </div>
 <div class="wrapper">
     <ul>
-        <li><a href="#" data-src="english-book/1/01 - Credits.mp3">01 - Credits</a></li>
-        <li><a href="#" data-src="english-book/2/01 - Unit 1a ex. 1, p. 4.mp3">01 - Unit 1a ex. 1, p. 4</a></li>
-        <li><a href="#" data-src="english-book/2/02 - Unit 1a  ex. 2, p. 4.mp3">02 - Unit 1a ex. 2, p. 4</a></li>
-        <li><a href="#" data-src="english-book/2/03 - Unit 1a  ex. 3, p. 5.mp3">03 - Unit 1a ex. 3, p. 5</a></li>
-        <li><a href="#" data-src="english-book/2/04 - Unit 1a  ex. 1, p. 6.mp3">04 - Unit 1a ex. 1, p. 6</a></li>
-        <li><a href="#" data-src="english-book/2/05 - Unit 1a  The Ugly Duckling.mp3">05 - Unit 1a The Ugly Duckling</a>
-        </li>
-        <li><a href="#" data-src="english-book/2/06 - Unit 2a  ex. 1 p. 8.mp3">06 - Unit 2a ex. 1 p. 8</a></li>
-        <li><a href="#" data-src="english-book/2/07 - Unit 2a  ex. 2, p. 8 .mp3">07 - Unit 2a ex. 2, p. 8</a></li>
-        <li><a href="#" data-src="english-book/2/08 - Unit 2a  ex. 3 p. 9.mp3">08 - Unit 2a ex. 3 p. 9</a></li>
-        <li><a href="#" data-src="english-book/2/09 - Unit 2a  ex. 1, p. 10 .mp3">09 - Unit 2a ex. 1, p. 10</a></li>
-        <li><a href="#" data-src="english-book/2/10 - Unit 2a  The Ugly Duckling.mp3">10 - Unit 2a The Ugly Duckling</a>
-        </li>
-        <li><a href="#" data-src="english-book/2/11 - Unit 3a  ex. 1, p. 12.mp3">11 - Unit 3a ex. 1, p. 12</a></li>
-        <li><a href="#" data-src="english-book/2/12 - Unit 3a  ex. 2, p. 12.mp3">12 - Unit 3a ex. 2, p. 12</a></li>
-        <li><a href="#" data-src="english-book/2/13 - Unit 3a  ex. 3, p. 13.mp3">13 - Unit 3a ex. 3, p. 13</a></li>
-        <li><a href="#" data-src="english-book/2/14 - Unit 3a  ex. 1, p. 14 .mp3">14 - Unit 3a ex. 1, p. 14</a></li>
-        <li><a href="#" data-src="english-book/2/15 - Unit 3a  The Ugly Duckling.mp3">15 - Unit 3a The Ugly Duckling</a>
-        </li>
-        <li><a href="#" data-src="english-book/2/16 - Unit 3a  ex. 4, p. 19.mp3">16 - Unit 3a ex. 4, p. 19</a></li>
+        <?php
+        function getFiles($dir, $extension)
+        {
+            if (!function_exists('getFilesRecursive')) {
+                function getFilesRecursive($dir, $extension, &$results = array())
+                {
+                    $files = scandir($dir);
+
+                    foreach ($files as $key => $value) {
+                        $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
+                        if (!is_dir($path)) {
+                            if (@pathinfo($value)['extension'] === $extension) {
+                                $results[] = $path;
+                            }
+                        } else if ($value != "." && $value != "..") {
+                            getFilesRecursive($path, $extension, $results);
+                        }
+                    }
+
+                    return $results;
+                }
+            }
+
+            $result = getFilesRecursive($dir, $extension);
+            foreach ($result as &$r) {
+                $r = mb_substr($r, mb_strlen($dir) + 1);
+            }
+
+            return $result;
+        }
+
+        foreach (getFiles(__DIR__ . '/english-book', 'mp3') as $file) {
+            echo "
+            <li><a href=\"#\" data-src=\"english-book/$file\">$file</a></li>
+            ";
+        }
+        ?>
     </ul>
 </div>
 </body>
