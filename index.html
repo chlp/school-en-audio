@@ -116,6 +116,7 @@
                 $(this).addClass('playing');
                 audio.load($('a', this).attr('data-src'));
                 audio.play();
+                $('.wrapper-top h1').text($('a', this).text());
             });
         });
     </script>
