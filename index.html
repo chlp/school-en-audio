@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,31 +5,104 @@
     <title>English Spotlight Starter</title>
     <meta content="width=device-width, initial-scale=0.6" name="viewport">
     <style>
-        body { margin: 0; padding: 0; color: #666; font-family: sans-serif; line-height: 1.4; }
-        h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
-        h1 em { font-style: normal; color: #999; }
-        a { color: #888; text-decoration: none; }
-        .wrapper { width: 460px; margin: 10px auto; }
-        .wrapper-top { position: fixed; z-index: 1; top: 0; width: 100%; background-color: rgba(255, 255, 255, .8); }
+        body {
+            margin: 0;
+            padding: 0;
+            color: #666;
+            font-family: sans-serif;
+            line-height: 1.4;
+        }
 
-        ul { padding: 0px; margin: 100px 0 0; list-style: none; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
-        ul li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
-        ul li a { display: block; }
-        li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
-        li.playing a { color: #000; }
-        li.playing:before { content: '♬'; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: -24px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
+        h1 {
+            color: #444;
+            font-size: 1.2em;
+            padding: 14px 2px 12px;
+            margin: 0px;
+        }
+
+        h1 em {
+            font-style: normal;
+            color: #999;
+        }
+
+        a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        .wrapper {
+            width: 460px;
+            margin: 10px auto;
+        }
+
+        .wrapper-top {
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, .8);
+        }
+
+        ul {
+            padding: 0px;
+            margin: 100px 0 0;
+            list-style: none;
+            color: #ccc;
+            width: 460px;
+            border-top: 1px solid #ccc;
+            font-size: 0.9em;
+        }
+
+        ul li {
+            position: relative;
+            margin: 0px;
+            padding: 9px 2px 10px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        ul li a {
+            display: block;
+        }
+
+        li.playing {
+            color: #aaa;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
+        }
+
+        li.playing a {
+            color: #000;
+        }
+
+        li.playing:before {
+            content: '♬';
+            width: 14px;
+            height: 14px;
+            padding: 3px;
+            line-height: 14px;
+            margin: 0px;
+            position: absolute;
+            left: -24px;
+            top: 9px;
+            color: #000;
+            font-size: 13px;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+        }
 
         @media screen and (max-device-width: 480px) {
-            .wrapper { position: relative; left: -3%; }
+            .wrapper {
+                position: relative;
+                left: -3%;
+            }
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="audiojs/audio.js"></script>
     <script>
-        $(function() {
+        $(function () {
             // Setup the player to autoplay the next track
             var a = audiojs.createAll({
-                trackEnded: function() {
+                trackEnded: function () {
                     if (this.settings.loop) {
                         this.play.apply(this);
                     } else {
@@ -45,7 +117,7 @@
             var audio = a[0];
 
             // Load in a track on click
-            $('ul li').click(function(e) {
+            $('ul li').click(function (e) {
                 e.preventDefault();
                 $('.playing').removeClass('playing');
                 $(this).addClass('playing');
@@ -66,21 +138,24 @@
     <ul>
         <li><a href="#" data-src="english-book/1/01 - Credits.mp3">01 - Credits</a></li>
         <li><a href="#" data-src="english-book/2/01 - Unit 1a ex. 1, p. 4.mp3">01 - Unit 1a ex. 1, p. 4</a></li>
-        <li><a href="#" data-src="english-book/2/02 - Unit 1a  ex. 2, p. 4.mp3">02 - Unit 1a  ex. 2, p. 4</a></li>
-        <li><a href="#" data-src="english-book/2/03 - Unit 1a  ex. 3, p. 5.mp3">03 - Unit 1a  ex. 3, p. 5</a></li>
-        <li><a href="#" data-src="english-book/2/04 - Unit 1a  ex. 1, p. 6.mp3">04 - Unit 1a  ex. 1, p. 6</a></li>
-        <li><a href="#" data-src="english-book/2/05 - Unit 1a  The Ugly Duckling.mp3">05 - Unit 1a  The Ugly Duckling</a></li>
-        <li><a href="#" data-src="english-book/2/06 - Unit 2a  ex. 1 p. 8.mp3">06 - Unit 2a  ex. 1 p. 8</a></li>
-        <li><a href="#" data-src="english-book/2/07 - Unit 2a  ex. 2, p. 8 .mp3">07 - Unit 2a  ex. 2, p. 8</a></li>
-        <li><a href="#" data-src="english-book/2/08 - Unit 2a  ex. 3 p. 9.mp3">08 - Unit 2a  ex. 3 p. 9</a></li>
-        <li><a href="#" data-src="english-book/2/09 - Unit 2a  ex. 1, p. 10 .mp3">09 - Unit 2a  ex. 1, p. 10</a></li>
-        <li><a href="#" data-src="english-book/2/10 - Unit 2a  The Ugly Duckling.mp3">10 - Unit 2a  The Ugly Duckling</a></li>
-        <li><a href="#" data-src="english-book/2/11 - Unit 3a  ex. 1, p. 12.mp3">11 - Unit 3a  ex. 1, p. 12</a></li>
-        <li><a href="#" data-src="english-book/2/12 - Unit 3a  ex. 2, p. 12.mp3">12 - Unit 3a  ex. 2, p. 12</a></li>
-        <li><a href="#" data-src="english-book/2/13 - Unit 3a  ex. 3, p. 13.mp3">13 - Unit 3a  ex. 3, p. 13</a></li>
-        <li><a href="#" data-src="english-book/2/14 - Unit 3a  ex. 1, p. 14 .mp3">14 - Unit 3a  ex. 1, p. 14</a></li>
-        <li><a href="#" data-src="english-book/2/15 - Unit 3a  The Ugly Duckling.mp3">15 - Unit 3a  The Ugly Duckling</a></li>
-        <li><a href="#" data-src="english-book/2/16 - Unit 3a  ex. 4, p. 19.mp3">16 - Unit 3a  ex. 4, p. 19</a></li>
+        <li><a href="#" data-src="english-book/2/02 - Unit 1a  ex. 2, p. 4.mp3">02 - Unit 1a ex. 2, p. 4</a></li>
+        <li><a href="#" data-src="english-book/2/03 - Unit 1a  ex. 3, p. 5.mp3">03 - Unit 1a ex. 3, p. 5</a></li>
+        <li><a href="#" data-src="english-book/2/04 - Unit 1a  ex. 1, p. 6.mp3">04 - Unit 1a ex. 1, p. 6</a></li>
+        <li><a href="#" data-src="english-book/2/05 - Unit 1a  The Ugly Duckling.mp3">05 - Unit 1a The Ugly Duckling</a>
+        </li>
+        <li><a href="#" data-src="english-book/2/06 - Unit 2a  ex. 1 p. 8.mp3">06 - Unit 2a ex. 1 p. 8</a></li>
+        <li><a href="#" data-src="english-book/2/07 - Unit 2a  ex. 2, p. 8 .mp3">07 - Unit 2a ex. 2, p. 8</a></li>
+        <li><a href="#" data-src="english-book/2/08 - Unit 2a  ex. 3 p. 9.mp3">08 - Unit 2a ex. 3 p. 9</a></li>
+        <li><a href="#" data-src="english-book/2/09 - Unit 2a  ex. 1, p. 10 .mp3">09 - Unit 2a ex. 1, p. 10</a></li>
+        <li><a href="#" data-src="english-book/2/10 - Unit 2a  The Ugly Duckling.mp3">10 - Unit 2a The Ugly Duckling</a>
+        </li>
+        <li><a href="#" data-src="english-book/2/11 - Unit 3a  ex. 1, p. 12.mp3">11 - Unit 3a ex. 1, p. 12</a></li>
+        <li><a href="#" data-src="english-book/2/12 - Unit 3a  ex. 2, p. 12.mp3">12 - Unit 3a ex. 2, p. 12</a></li>
+        <li><a href="#" data-src="english-book/2/13 - Unit 3a  ex. 3, p. 13.mp3">13 - Unit 3a ex. 3, p. 13</a></li>
+        <li><a href="#" data-src="english-book/2/14 - Unit 3a  ex. 1, p. 14 .mp3">14 - Unit 3a ex. 1, p. 14</a></li>
+        <li><a href="#" data-src="english-book/2/15 - Unit 3a  The Ugly Duckling.mp3">15 - Unit 3a The Ugly Duckling</a>
+        </li>
+        <li><a href="#" data-src="english-book/2/16 - Unit 3a  ex. 4, p. 19.mp3">16 - Unit 3a ex. 4, p. 19</a></li>
     </ul>
 </div>
 </body>
